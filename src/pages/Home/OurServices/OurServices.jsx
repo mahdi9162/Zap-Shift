@@ -53,7 +53,7 @@ const OurServices = () => {
 
   return (
     <Container>
-      <section className="bg-[#03373D] px-40 py-24 rounded-4xl my-20">
+      <section className="bg-[#03373D] px-40 py-24 rounded-4xl my-24">
         <h3 className="text-[#FFFFFF] text-center font-bold text-3xl mb-5">Our Services</h3>
         <p className="text-[#DADADA] mx-auto text-center w-96">
           Enjoy fast, reliable parcel delivery with real-time tracking and zero hassle. From personal packages to business shipments — we

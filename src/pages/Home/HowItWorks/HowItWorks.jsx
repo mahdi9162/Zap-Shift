@@ -38,7 +38,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className='my-20'>
+    <section className='my-24'>
       <Container>
         <div>
           <h3 className='text-[#03373D] font-bold text-3xl mb-5'>How it Works</h3>
