@@ -5,6 +5,7 @@ import OurServices from '../OurServices/OurServices';
 import Brands from '../Brands/Brands';
 import Features from '../Features/Features';
 import OurPriority from '../OurPriority/OurPriority';
+import Faq from '../Faq/Faq';
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
       <Brands></Brands>
       <Features></Features>
       <OurPriority></OurPriority>
+      <Faq></Faq>
     </div>
   );
 };
