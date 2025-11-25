@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState([]);
 
+
   // Email & Pass
   const signUpWithEmail = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
