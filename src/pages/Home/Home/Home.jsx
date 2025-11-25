@@ -10,7 +10,7 @@ import Faq from '../Faq/Faq';
 const Home = () => {
   return (
     <div>
-      <Banner></Banner>
+      <Banner></Banner> 
       <HowItWorks></HowItWorks>
       <OurServices></OurServices>
       <Brands></Brands>
