@@ -1,8 +1,10 @@
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../hooks/useAuth';
+import SocialLogin from '../SocialLogin/SocialLogin';
+import { Link } from 'react-router';
 
 const Register = () => {
-  const { signUpWithEmail, setUser } = useAuth();
+  const { signUpWithEmail } = useAuth();
 
   const {
     register,
@@ -16,7 +18,6 @@ const Register = () => {
     signUpWithEmail(data.email, data.password)
       .then((res) => {
         const userProfile = res.user;
-        setUser(userProfile);
         alert('register successfull');
       })
       .catch((error) => {
@@ -60,8 +61,15 @@ const Register = () => {
           <div>
             <button className="btn btn-neutral w-96 bg-[#caeb66] border-none text-black shadow-lg mt-4 ">Register</button>
           </div>
+          <p className="my-2">
+            Already have an account?{' '}
+            <Link to="/login" className="text-[#8FA748]">
+              Login
+            </Link>
+          </p>
         </fieldset>
       </form>
+      <SocialLogin>Register with Google</SocialLogin>
     </section>
   );
 };

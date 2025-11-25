@@ -1,9 +1,11 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../hooks/useAuth';
+import SocialLogin from '../SocialLogin/SocialLogin';
+import { Link } from 'react-router';
 
 const Login = () => {
-  const { signInWithEmail, setUser } = useAuth();
+  const { signInWithEmail } = useAuth();
 
   const {
     register,
@@ -17,7 +19,6 @@ const Login = () => {
     signInWithEmail(data.email, data.password)
       .then((res) => {
         const userProfile = res.user;
-        setUser(userProfile);
         alert('login successfull');
       })
       .catch((error) => {
@@ -59,8 +60,15 @@ const Login = () => {
           <div>
             <button className="btn btn-neutral w-96 bg-[#caeb66] border-none text-black shadow-lg mt-4 ">Login</button>
           </div>
+          <p className="my-2">
+            Don’t have any account?{' '}
+            <Link to="/register" className="text-[#8FA748]">
+              Register
+            </Link>
+          </p>
         </fieldset>
       </form>
+      <SocialLogin>Login with google</SocialLogin>
     </section>
   );
 };
