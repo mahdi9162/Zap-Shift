@@ -1,7 +1,9 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
+import useAuth from '../../../hooks/useAuth';
 
 const Register = () => {
+  const { signUpWithEmail, setUser } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -11,7 +13,15 @@ const Register = () => {
   const passValidation = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}[\]:;"'<>,.?/\\|]).{8,15}$/;
 
   const handleRegisterForm = (data) => {
-    console.log(data);
+    signUpWithEmail(data.email, data.password)
+      .then((res) => {
+        const userProfile = res.user;
+        setUser(userProfile);
+        alert('register successfull');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
