@@ -48,7 +48,7 @@ const Faq = () => {
         {/* FAQ */}
         <div className="mt-10">
           {faqData.map((faq) => (
-            <div className="bg-base-100 border-base-300 collapse border mb-4">
+            <div key={faq.id} className="bg-base-100 border-base-300 collapse border mb-4">
               <input type="checkbox" className="peer" />
               <div className="collapse-title bg-white text-[#606060] font-bold peer-checked:bg-[#CAEB66] peer-checked:text-[#606060] ">
                 {faq.question}

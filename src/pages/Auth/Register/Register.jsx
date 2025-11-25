@@ -1,10 +1,12 @@
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../hooks/useAuth';
 import SocialLogin from '../SocialLogin/SocialLogin';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
+import axios from 'axios';
 
 const Register = () => {
-  const { signUpWithEmail } = useAuth();
+  const { signUpWithEmail, updateUserProfile } = useAuth();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -15,13 +17,47 @@ const Register = () => {
   const passValidation = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+={}[\]:;"'<>,.?/\\|]).{8,15}$/;
 
   const handleRegisterForm = (data) => {
+    const profileImg = data.photo[0];
+
     signUpWithEmail(data.email, data.password)
       .then((res) => {
-        const userProfile = res.user;
-        alert('register successfull');
+        const userData = res.user;
+
+        // store the image in form data
+        const formData = new FormData();
+        formData.append('image', profileImg);
+
+        // send the photo to store and get the url
+        const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`;
+
+        axios
+          .post(image_API_URL, formData)
+          .then((imgRes) => {
+            const photoUrl = imgRes.data.data.display_url;
+
+            // update user profile
+            const userProfile = {
+              displayName: data.name,
+              photoURL: photoUrl,
+            };
+            
+            updateUserProfile(userProfile)
+              .then(() => {
+                alert('Register successful! Welcome ' + userData?.displayName);
+                navigate('/');
+              })
+              .catch((error) => {
+                console.log('Profile update error:', error);
+              });
+          })
+          .catch((err) => {
+            console.log('Image Upload Failed:', err);
+            alert('Account created, but image upload failed.');
+            navigate('/');
+          });
       })
       .catch((error) => {
-        console.log(error);
+        console.log('Sign Up Error:', error);
       });
   };
 
@@ -34,16 +70,29 @@ const Register = () => {
       <form onSubmit={handleSubmit(handleRegisterForm)}>
         <fieldset className="fieldset gap-2.5">
           {/* Name */}
-          <label className="label">Name</label>
+          <label className="label -mb-2">Name</label>
           <input type="text" {...register('name', { minLength: 6, required: true })} className="input w-96" placeholder="Enter Your Name" />
           {errors.name?.type === 'required' && <p className="text-red-500 text-xs">Name is required.</p>}
           {errors.name?.type === 'minLength' && <p className="text-red-500 text-xs">Name must be at least 6 characters.</p>}
+
+          {/* Photo Upload Field */}
+          <div className="mt-2">
+            <label className="block mb-2 text-xs text-gray-600 ">Profile Picture </label>
+            <input
+              type="file"
+              {...register('photo', { required: true })}
+              className="block w-96 text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:cursor-pointer file:border-0 file:text-sm file:font-semibold file:bg-green-100 file:text-green-700 hover:file:bg-green-200 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+            />
+            {errors.photo?.type === 'required' && <p className="text-red-500 text-xs">Profile picture is required.</p>}
+          </div>
+
           {/* Email */}
-          <label className="label">Email</label>
+          <label className="label -mb-2 mt-2">Email</label>
           <input type="email" {...register('email', { required: true })} className="input w-96" placeholder="Enter Your Email" />
           {errors.email?.type === 'required' && <p className="text-xs text-red-500">Email address is required.</p>}
+
           {/* Pass */}
-          <label className="label">Password</label>
+          <label className="label -mb-2 mt-2">Password</label>
           <input
             type="password"
             {...register('password', { required: true, minLength: 8, maxLength: 15, pattern: passValidation })}
@@ -58,6 +107,7 @@ const Register = () => {
               Password must include an uppercase letter, <br /> a lowercase letter, a number, and a special character.
             </p>
           )}
+
           <div>
             <button className="btn btn-neutral w-96 bg-[#caeb66] border-none text-black shadow-lg mt-4 ">Register</button>
           </div>

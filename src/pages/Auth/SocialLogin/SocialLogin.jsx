@@ -2,14 +2,13 @@ import React from 'react';
 import useAuth from '../../../hooks/useAuth';
 
 const SocialLogin = ({ children }) => {
-  const { signInWithGoogle, setUser } = useAuth();
+  const { signInWithGoogle } = useAuth();
 
   const handleGoogleLogin = () => {
     signInWithGoogle()
       .then((res) => {
-        const userProfile = res.user;
-        setUser(userProfile);
-        alert('successfully Loged in');
+        const userData = res.user;
+        alert('Signin successful! Welcome ' + userData?.displayName);
       })
       .catch((error) => {
         console.log(error);

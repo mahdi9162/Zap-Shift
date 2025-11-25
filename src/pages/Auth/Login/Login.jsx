@@ -2,10 +2,11 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../hooks/useAuth';
 import SocialLogin from '../SocialLogin/SocialLogin';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 const Login = () => {
   const { signInWithEmail } = useAuth();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -18,8 +19,9 @@ const Login = () => {
   const handleLoginForm = (data) => {
     signInWithEmail(data.email, data.password)
       .then((res) => {
-        const userProfile = res.user;
-        alert('login successfull');
+        const userData = res.user;
+        alert('Signin successful! Welcome ' + userData?.displayName);
+        navigate('/');
       })
       .catch((error) => {
         console.log(error);
@@ -35,11 +37,11 @@ const Login = () => {
       <form onSubmit={handleSubmit(handleLoginForm)}>
         <fieldset className="fieldset gap-2.5">
           {/* Email */}
-          <label className="label">Email</label>
+          <label className="label -mb-2">Email</label>
           <input type="email" {...register('email', { required: true })} className="input w-96" placeholder="Enter Your Email" />
           {errors.email?.type === 'required' && <p className="text-xs text-red-500">Email address is required.</p>}
           {/* Pass */}
-          <label className="label">Password</label>
+          <label className="label -mb-2 mt-2">Password</label>
           <input
             type="password"
             {...register('password', { required: true, minLength: 8, maxLength: 15, pattern: passValidation })}
