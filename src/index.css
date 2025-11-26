@@ -19,9 +19,16 @@ body {
   font-style: normal;
 }
 
+/* Nav */
+.nav-inactive {
+  @apply text-[#606060] bg-none font-normal transition-all duration-300;
+}
+
+.nav-active {
+  @apply bg-[#CAEB66] rounded-full text-[#606060] font-bold transition-all duration-300;
+}
+
 /* Features and About Us section */
 .feature-box {
   box-shadow: rgba(60, 64, 67, 0) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
-
-

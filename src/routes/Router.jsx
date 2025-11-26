@@ -6,8 +6,9 @@ import AboutUs from '../pages/AboutUs/AboutUs';
 import AuthLayout from '../layouts/AuthLayout';
 import Login from '../pages/Auth/Login/Login';
 import Register from '../pages/Auth/Register/Register';
-import PrivateRouter from './PrivateRouter';
 import Rider from '../pages/Rider/Rider';
+import SendAParcel from '../pages/SendAParcel/SendAParcel';
+import PrivateRoute from './PrivateRoute';
 
 export const router = createBrowserRouter([
   {
@@ -26,10 +27,19 @@ export const router = createBrowserRouter([
       {
         path: '/rider',
         element: (
-          <PrivateRouter>
+          <PrivateRoute>
             <Rider></Rider>
-          </PrivateRouter>
+          </PrivateRoute>
         ),
+      },
+      {
+        path: '/send-parcel',
+        element: (
+          <PrivateRoute>
+            <SendAParcel></SendAParcel>
+          </PrivateRoute>
+        ),
+        loader: () => fetch('/serviceCenter.json').then((res) => res.json()),
       },
       {
         path: '/about-us',

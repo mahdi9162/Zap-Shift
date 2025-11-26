@@ -10,13 +10,22 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <NavLink>Services</NavLink>
+        <NavLink >Services</NavLink>
       </li>
       <li>
-        <NavLink to="/coverage">Coverage</NavLink>
+        <NavLink to="/coverage" className={({ isActive }) => (isActive ? 'nav-active' : 'nav-inactive')}>
+          Coverage
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/about-us">About Us</NavLink>
+        <NavLink to="/about-us" className={({ isActive }) => (isActive ? 'nav-active' : 'nav-inactive')}>
+          About Us
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/send-parcel" className={({ isActive }) => (isActive ? 'nav-active' : 'nav-inactive')}>
+          Send Parcel
+        </NavLink>
       </li>
       <li>
         <NavLink>Pricing</NavLink>
@@ -58,7 +67,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{links}</ul>
+          <ul className="menu menu-horizontal px-1 gap-2">{links}</ul>
         </div>
         <div className="navbar-end gap-4">
           {user && (
