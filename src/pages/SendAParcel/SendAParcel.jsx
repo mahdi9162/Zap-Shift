@@ -3,14 +3,19 @@ import Container from '../../components/Container/Container';
 import { useForm, useWatch } from 'react-hook-form';
 import { useLoaderData } from 'react-router';
 import Swal from 'sweetalert2';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useAuth from '../../hooks/useAuth';
 
 const SendAParcel = () => {
+const {user} = useAuth()
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
+
+  const axiosSecure = useAxiosSecure();
 
   const phoneNoPattern = /^(01)[3-9]\d{8}$/;
   const serviceCenters = useLoaderData();
@@ -53,6 +58,12 @@ const SendAParcel = () => {
       cancelButtonText: 'Go Back',
     }).then((result) => {
       if (result.isConfirmed) {
+
+        // save the parcel info to mongodb
+        axiosSecure.post('/parcels', data).then((res) => {
+          console.log('after saving data',res.data);
+        });
+
         Swal.fire({
           title: 'Booking Confirmed',
           text: 'Your parcel has been submitted successfully.',
@@ -134,6 +145,7 @@ const SendAParcel = () => {
                 {...register('senderName', { required: true })}
                 placeholder="Sender Name"
                 className="input input-bordered w-full"
+                defaultValue={user?.displayName}
               />
               {/* Sender Email */}
               <label className="label mt-4 mb-1">Sender Email</label>
@@ -142,6 +154,7 @@ const SendAParcel = () => {
                 {...register('senderEmail', { required: true })}
                 placeholder="Sender Email"
                 className="input input-bordered w-full"
+                defaultValue={user?.email}
               />
               {/*Sender Address */}
               <label className="label mt-4 mb-1">Sender Address</label>
