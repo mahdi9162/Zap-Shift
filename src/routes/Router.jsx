@@ -9,6 +9,13 @@ import Register from '../pages/Auth/Register/Register';
 import Rider from '../pages/Rider/Rider';
 import SendAParcel from '../pages/SendAParcel/SendAParcel';
 import PrivateRoute from './PrivateRoute';
+import DashboardLayout from '../layouts/DashboardLayout';
+import MyParcels from '../pages/Dashboard/MyParcels/MyParcels';
+// import Payment from '../pages/Dashboard/Payment/Payment';
+import PaymentSuccess from '../pages/Dashboard/Payment/PaymentSuccess';
+import paymentCancel from '../pages/Dashboard/Payment/paymentCancel';
+import PaymentHistory from '../pages/Dashboard/PaymentHistory/PaymentHistory';
+import ApproveRiders from '../pages/Dashboard/ApproveRiders/ApproveRiders';
 
 export const router = createBrowserRouter([
   {
@@ -20,20 +27,21 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: '/coverage',
+        path: 'coverage',
         Component: Coverage,
         loader: () => fetch('/serviceCenter.json').then((res) => res.json()),
       },
       {
-        path: '/rider',
+        path: 'rider',
         element: (
           <PrivateRoute>
             <Rider></Rider>
           </PrivateRoute>
         ),
+        loader: () => fetch('/serviceCenter.json').then((res) => res.json()),
       },
       {
-        path: '/send-parcel',
+        path: 'send-parcel',
         element: (
           <PrivateRoute>
             <SendAParcel></SendAParcel>
@@ -42,22 +50,55 @@ export const router = createBrowserRouter([
         loader: () => fetch('/serviceCenter.json').then((res) => res.json()),
       },
       {
-        path: '/about-us',
+        path: 'about-us',
         Component: AboutUs,
       },
     ],
   },
   {
-    path: '/',
     Component: AuthLayout,
     children: [
       {
-        path: '/login',
+        path: 'login',
         Component: Login,
       },
       {
-        path: '/register',
+        path: 'register',
         Component: Register,
+      },
+    ],
+  },
+  {
+    path: '/dashboard',
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: 'my-parcels',
+        Component: MyParcels,
+      },
+      // {
+      //   path: 'payment/:parcelId',
+      //   Component: Payment,
+      // },
+      {
+        path: 'payment-history',
+        Component: PaymentHistory,
+      },
+      {
+        path: 'payment-success',
+        Component: PaymentSuccess,
+      },
+      {
+        path: 'payment-cancelled',
+        Component: paymentCancel,
+      },
+      {
+        path: 'approve-riders',
+        Component: ApproveRiders,
       },
     ],
   },

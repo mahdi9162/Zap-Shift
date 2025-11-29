@@ -10,7 +10,7 @@ const AuthLayout = () => {
     <Container>
       <section className="mt-5">
         <Logo></Logo>
-        <div className="mt-30 flex justify-between items-center shadow-xl pl-10 rounded-3xl overflow-hidden h-[700px] ">
+        <div className="my-10 flex justify-between items-center shadow-xl pl-10 rounded-3xl overflow-hidden h-[700px] ">
           <div className="flex-1 ">
             <Outlet></Outlet>
           </div>

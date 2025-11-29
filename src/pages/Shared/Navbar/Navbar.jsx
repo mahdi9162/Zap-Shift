@@ -10,9 +10,6 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <NavLink >Services</NavLink>
-      </li>
-      <li>
         <NavLink to="/coverage" className={({ isActive }) => (isActive ? 'nav-active' : 'nav-inactive')}>
           Coverage
         </NavLink>
@@ -27,15 +24,16 @@ const Navbar = () => {
           Send Parcel
         </NavLink>
       </li>
-      <li>
-        <NavLink>Pricing</NavLink>
-      </li>
-      <li>
-        <NavLink>Blog</NavLink>
-      </li>
-      <li>
-        <NavLink>Contact</NavLink>
-      </li>
+
+      {user && (
+        <>
+          <li>
+            <NavLink to="/dashboard/my-parcels" className={({ isActive }) => (isActive ? 'nav-active' : 'nav-inactive')}>
+              My Parcels
+            </NavLink>
+          </li>
+        </>
+      )}
     </>
   );
 

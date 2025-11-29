@@ -1,13 +1,13 @@
 import React from 'react';
 import Container from '../../components/Container/Container';
 import { useForm, useWatch } from 'react-hook-form';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
 
 const SendAParcel = () => {
-const {user} = useAuth()
+  const { user } = useAuth();
   const {
     register,
     handleSubmit,
@@ -16,6 +16,7 @@ const {user} = useAuth()
   } = useForm();
 
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const phoneNoPattern = /^(01)[3-9]\d{8}$/;
   const serviceCenters = useLoaderData();
@@ -48,26 +49,30 @@ const {user} = useAuth()
         cost = minCharge + extraCharge;
       }
     }
-
+    // cost save to mongodb
+    data.cost = cost;
     Swal.fire({
       title: `Total Cost: ৳${cost}`,
       html: '<b>Review carefully before continuing.</b>',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Confirm Booking',
+      confirmButtonText: 'Confirm & Continue Payment',
       cancelButtonText: 'Go Back',
     }).then((result) => {
       if (result.isConfirmed) {
-
         // save the parcel info to mongodb
         axiosSecure.post('/parcels', data).then((res) => {
-          console.log('after saving data',res.data);
-        });
-
-        Swal.fire({
-          title: 'Booking Confirmed',
-          text: 'Your parcel has been submitted successfully.',
-          icon: 'success',
+          if (res.data.insertedId) {
+            navigate('/dashboard/my-parcels');
+            Swal.fire({
+              position: 'top-end',
+              title: 'Booking Confirmed',
+              text: 'Your parcel has been submitted successfully.',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 2500,
+            });
+          }
         });
       }
     });
