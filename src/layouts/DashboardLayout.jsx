@@ -1,9 +1,10 @@
 import React from 'react';
-import { FaCreditCard, FaMotorcycle, FaUsers } from 'react-icons/fa';
+import { FaCreditCard, FaMotorcycle, FaTasks, FaUsers } from 'react-icons/fa';
 import { TbTruckDelivery } from 'react-icons/tb';
 import { Link, NavLink, Outlet } from 'react-router';
 import useRole from '../hooks/useRole';
 import { LiaMotorcycleSolid } from 'react-icons/lia';
+import { SiGoogletasks } from 'react-icons/si';
 
 const DashboardLayout = () => {
   const { role } = useRole();
@@ -82,6 +83,35 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">Payment History</span>
               </NavLink>
             </li>
+            {/* Rider only Links */}
+            {role === 'rider' && (
+              <>
+                {/* Assign Deliveries */}
+                <li>
+                  <NavLink
+                    to="/dashboard/assigned-deliveries"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Assigned Deliveries"
+                  >
+                    <FaTasks className="my-1.5 inline-block size-4" />
+                    <span className="is-drawer-close:hidden">Assigned Deliveries</span>
+                  </NavLink>
+                </li>
+                {/* Completed Deliveries */}
+                <li>
+                  <NavLink
+                    to="/dashboard/completed-deliveries"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Completed Deliveries"
+                  >
+                    <SiGoogletasks className="my-1.5 inline-block size-4" />
+                    <span className="is-drawer-close:hidden">Completed Deliveries</span>
+                  </NavLink>
+                </li>
+              </>
+            )}
+
+            {/* Admin only Links */}
             {role === 'admin' && (
               <>
                 {/* Approve Riders */}
